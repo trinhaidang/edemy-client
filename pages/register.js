@@ -1,4 +1,8 @@
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { SyncOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 
 const Register = () => {
@@ -7,10 +11,23 @@ const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, SetPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.table({ name, email, password });
+        // console.table({ name, email, password });
+        try {
+            setLoading(true);
+            const { data } = await axios.post(`/api/register`, {
+                name, email, password
+            });
+            // console.log("REGISTER RESPONSE: ", data);
+            setLoading(false);
+            toast.success("Registration successful. Login now.");
+        } catch (error) {
+            toast.error(error.response.data);
+            setLoading(false);
+        }
     }
 
     return (
@@ -42,8 +59,20 @@ const Register = () => {
                         placeholder="Enter password"
                         required
                     />
-                    <button type="submit" className="form-control btn btn-block btn-primary p-2">Submit</button>
+                    <button 
+                        type="submit" 
+                        className="form-control btn btn-block btn-primary p-2"
+                        disabled={!name || !email || !password || loading}
+                    >
+                        {loading ? <SyncOutlined spin /> : "Submit"}
+                    </button>
                 </form>
+                <p className="text-center p-3">
+                    Already registered?{" "}
+                    <Link href="/login">
+                        <a>Login</a>
+                    </Link>
+                </p>
             </div>
         </>
     )
