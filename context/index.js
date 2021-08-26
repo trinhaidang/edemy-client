@@ -24,7 +24,7 @@ const rootReducer = (state, action) => {
 // get csrf token -> set to headers
 const getCsrfToken = async () => {
     const { data } = await axios.get("/api/csrf-token");
-    console.log("CSRF", data);
+    // console.log("CSRF", data);
     axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
 };
 
@@ -50,7 +50,7 @@ const ContextProvider = ({ children }) => {
         },
         function (error) {    // trigger when response error, status code != 2xx
             let res = error.response;
-            if (res.status === 401 && res.config && !res.config.__isRetryRequest) {  // when token expires 
+            if (res.status === 401 && res.config && !res.config.__isRetryRequest) {  // when token expires or forbidden resource
                 return new Promise((resolve, reject) => {
                     axios.get("/api/logout").then((data) => {
                         console.log("/401 error > logout");

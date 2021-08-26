@@ -56,7 +56,7 @@ const TopNav = () => {
             )}
             {user !== null && (
                 <SubMenu icon={<CoffeeOutlined />} title={user && user.name} className="ms-auto">
-                    <Item onClick={logout} className="ms-auto">
+                    <Item key="/logout" onClick={logout} className="ms-auto">
                         Log out
                     </Item>
                 </SubMenu>
