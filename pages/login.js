@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { Context } from "../context";
+import { ActionEnum } from "../common/constants";
+import { useRouter } from "next/router";
 
 
 const Login = () => {
@@ -10,6 +13,10 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, SetPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const {state, dispatch} = useContext(Context);
+
+    // router
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +26,19 @@ const Login = () => {
             const { data } = await axios.post(`/api/login`, {
                 email, password
             });
-            console.log("LOGIN RESPONSE: ", data);
+            // console.log("LOGIN RESPONSE: ", data); // -> user
+            
+            // save data to context state
+            dispatch({
+                type: ActionEnum.login,
+                payload: data,
+            });
+            //save data to localStorage
+            window.localStorage.setItem("user", JSON.stringify(data));
+
+            // redirect
+            router.push("/");
+
             setLoading(false);
         } catch (error) {
             toast.error(error.response.data);
