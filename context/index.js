@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useRouter } from "next/router";
 import { useReducer, createContext, useEffect } from "react";
 import { ActionEnum } from "../common/constants";
 
@@ -19,18 +21,51 @@ const rootReducer = (state, action) => {
     }
 }
 
+// get csrf token -> set to headers
+const getCsrfToken = async () => {
+    const { data } = await axios.get("/api/csrf-token");
+    console.log("CSRF", data);
+    axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
+};
+
 // create context
 const Context = createContext();
 const ContextProvider = ({ children }) => {
     // preferable to useState case complex state logic w multiple sub-values; pass dispatch thay callbacks -> trigger deep updates 
     const [state, dispatch] = useReducer(rootReducer, initialState);
-    // find user from localStorage every time reload page or redirect
+    // find user from localStorage every time reload page or redirect <=> setState
     useEffect(() => {
         dispatch({
             type: ActionEnum.login,
             payload: JSON.parse(window.localStorage.getItem("user")),
         });
+        getCsrfToken();
     }, []);
+
+    // handle response
+    const router = useRouter();
+    axios.interceptors.response.use(
+        function (response) {   // trigger when status code 2xx (success)
+            return response;
+        },
+        function (error) {    // trigger when response error, status code != 2xx
+            let res = error.response;
+            if (res.status === 401 && res.config && !res.config.__isRetryRequest) {  // when token expires 
+                return new Promise((resolve, reject) => {
+                    axios.get("/api/logout").then((data) => {
+                        console.log("/401 error > logout");
+                        dispatch({ type: ActionEnum.logout });
+                        window.localStorage.removeItem("user");
+                        router.push("/login");
+                    }).catch((err) => {
+                        console.log("AXIOS INTERCEPTORS ERR", err);
+                        reject(err);
+                    });
+                });
+            }
+            return Promise.reject(error);
+        }
+    );
 
     return (
         <Context.Provider value={{ state, dispatch }} >
