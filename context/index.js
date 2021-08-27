@@ -25,7 +25,7 @@ const rootReducer = (state, action) => {
 const getCsrfToken = async () => {
     const { data } = await axios.get("/api/csrf-token");
     // console.log("CSRF", data);
-    axios.defaults.headers["X-CSRF-Token"] = data.getCsrfToken;
+    axios.defaults.headers["X-CSRF-Token"] = data.csrfToken;
 };
 
 // create context
