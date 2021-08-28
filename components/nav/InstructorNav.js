@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 
 
-const UserNav = () => {
+const InstructorNav = () => {
 
     const [current, setCurrent] = useState("");
     useEffect(() => {
@@ -12,11 +12,14 @@ const UserNav = () => {
 
     return (
         <div className="nav flex-column nav-pills">
-            <Link href="/user">
-                <a className={`nav-link ${current === "/user" && "active"}`}>User  Dashboard</a>
+            <Link href="/instructor">
+                <a className={`nav-link ${current === "/instructor" && "active"}`}>Dashboard</a>
+            </Link>
+            <Link href="/instructor/course/create">
+                <a className={`nav-link ${current === "/instructor/course/create" && "active"}`}>Create Course</a>
             </Link>
         </div>
     );
 };
 
-export default UserNav;
+export default InstructorNav;

@@ -9,3 +9,6 @@ export const RoleEnum = {
     ADMIN: "Admin"
 };
 
+export const DEFAULT_PRICE = 19;
+export const DEFAULT_COURSE_IMG = "/images/default.png";
+
