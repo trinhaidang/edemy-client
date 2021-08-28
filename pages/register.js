@@ -29,14 +29,14 @@ const Register = () => {
                 name, email, password
             });
             // console.log("REGISTER RESPONSE: ", data);
-            setEmail('');
-            setCode('');
-            setPassword('');
+            setEmail("");
+            setName("");
+            setPassword("");
             setLoading(false);
             toast.success("Registration successful. Login now.");
         } catch (error) {
-            toast.error(error.response.data);
             setLoading(false);
+            toast.error(error.response.data);
         }
     }
 

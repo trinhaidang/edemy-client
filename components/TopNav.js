@@ -1,10 +1,10 @@
 import { Menu } from "antd";
 import Link from "next/link";
 // import Link from "@material-ui/core/Link";
-import { AppstoreOutlined, CoffeeOutlined, LoginOutlined, LogoutOutlined, UserAddOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, CarryOutOutlined, CoffeeOutlined, LoginOutlined, LogoutOutlined, TeamOutlined, UserAddOutlined } from "@ant-design/icons";
 import { useEffect, useState, useContext } from "react";
 import { Context } from "../context";
-import { ActionEnum } from "../common/constants";
+import { ActionEnum, RoleEnum } from "../common/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ const TopNav = () => {
     // logout
     const logout = async () => {
         // remove from context
-        dispatch({ type: ActionEnum.logout });
+        dispatch({ type: ActionEnum.LOGOUT });
         // remove from local storage
         window.localStorage.removeItem("user");
         const { data } = await axios.get("/api/logout");
@@ -40,6 +40,28 @@ const TopNav = () => {
                     <a>App</a>
                 </Link>
             </Item>
+
+            {user && user.role && user.role.includes(RoleEnum.INSTRUCTOR)
+                ? (
+                    <>
+                        <Item key="/instructor/course/create" onClick={(e) => setCurrent(e.key)} icon={<CarryOutOutlined />}>
+                            <Link href="/instructor/course/create">
+                                <a>Create Course</a>
+                            </Link>
+                        </Item>
+                    </>
+                )
+                : (
+                    <>
+                        <Item key="/user/become-instructor" onClick={(e) => setCurrent(e.key)} icon={<TeamOutlined />}>
+                            <Link href="/user/become-instructor">
+                                <a>Become Instructor</a>
+                            </Link>
+                        </Item>
+                    </>
+                )
+            }
+
             {user === null && (
                 <>
                     <Item key="/login" onClick={(e) => setCurrent(e.key)} icon={<LoginOutlined />}>

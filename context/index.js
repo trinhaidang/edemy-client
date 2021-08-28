@@ -12,9 +12,9 @@ const initialState = {
 // root reducer
 const rootReducer = (state, action) => {
     switch (action.type) {
-        case ActionEnum.login:
+        case ActionEnum.LOGIN:
             return { ...state, user: action.payload };
-        case ActionEnum.logout:
+        case ActionEnum.LOGOUT:
             return { ...state, user: null };
         default:
             return state;
@@ -36,7 +36,7 @@ const ContextProvider = ({ children }) => {
     // find user from localStorage every time reload page or redirect <=> setState
     useEffect(() => {
         dispatch({
-            type: ActionEnum.login,
+            type: ActionEnum.LOGIN,
             payload: JSON.parse(window.localStorage.getItem("user")),
         });
         getCsrfToken();
@@ -54,7 +54,7 @@ const ContextProvider = ({ children }) => {
                 return new Promise((resolve, reject) => {
                     axios.get("/api/logout").then((data) => {
                         console.log("/401 error > logout");
-                        dispatch({ type: ActionEnum.logout });
+                        dispatch({ type: ActionEnum.LOGOUT });
                         window.localStorage.removeItem("user");
                         router.push("/login");
                     }).catch((err) => {

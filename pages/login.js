@@ -19,7 +19,7 @@ const Login = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if(user !== null) router.push("/");
+        if(user !== null) router.push("/user");
     }, [user]);
 
     const handleSubmit = async (e) => {
@@ -34,19 +34,19 @@ const Login = () => {
 
             // save data to context state
             dispatch({
-                type: ActionEnum.login,
+                type: ActionEnum.LOGIN,
                 payload: data,
             });
             //save data to localStorage
             window.localStorage.setItem("user", JSON.stringify(data));
 
             // redirect
-            router.push("/");
+            router.push("/user");
 
             setLoading(false);
         } catch (error) {
-            toast.error(error.response.data);
             setLoading(false);
+            toast.error(error.response.data);
         }
     }
 

@@ -1,4 +1,11 @@
 export const ActionEnum = {
-    login: "LOGIN",
-    logout: "LOGOUT",
-}
+    LOGIN: "LOGIN",
+    LOGOUT: "LOGOUT",
+};
+
+export const RoleEnum = {
+    INSTRUCTOR: "Instructor",
+    SUBSCRIBER: "Subscriber",
+    ADMIN: "Admin"
+};
+
