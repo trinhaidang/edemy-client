@@ -6,6 +6,8 @@ import { useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import { Context } from "../context";
 
+const API_FORGOT_PASSWORD = "/api/forgot-password";
+const API_RESET_PASSWORD = "/api/reset-password";
 
 const Forgotpassword = () => {
 
@@ -26,7 +28,7 @@ const Forgotpassword = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const { data } = await axios.post("/api/forgot-password", { email });
+            const { data } = await axios.post(API_FORGOT_PASSWORD, { email });
             setSuccess(true);
             toast("Check your email for the secret code");
             setLoading(false);
@@ -42,7 +44,7 @@ const Forgotpassword = () => {
         // console.log(email, code, newPassword);
         try {
             setLoading(true);
-            const { data } = await axios.post("/api/reset-password", { email, code, newPassword });
+            const { data } = await axios.post(API_RESET_PASSWORD, { email, code, newPassword });
             setEmail('');
             setCode('');
             setNewPassword('');

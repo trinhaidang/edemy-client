@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { useReducer, createContext, useEffect } from "react";
 import { ActionEnum } from "../common/constants";
 
+const API_CSRF_TOKEN = "/api/csrf-token";
+const API_LOGOUT = "/api/logout";
 
 // initial state
 const initialState = {
@@ -23,7 +25,7 @@ const rootReducer = (state, action) => {
 
 // get csrf token -> set to headers
 const getCsrfToken = async () => {
-    const { data } = await axios.get("/api/csrf-token");
+    const { data } = await axios.get(API_CSRF_TOKEN);
     // console.log("CSRF", data);
     axios.defaults.headers["X-CSRF-Token"] = data.csrfToken;
 };
@@ -52,7 +54,7 @@ const ContextProvider = ({ children }) => {
             let res = error.response;
             if (res.status === 401 && res.config && !res.config.__isRetryRequest) {  // when token expires or forbidden resource
                 return new Promise((resolve, reject) => {
-                    axios.get("/api/logout").then((data) => {
+                    axios.get(API_LOGOUT).then((data) => {
                         console.log("/401 error > logout");
                         dispatch({ type: ActionEnum.LOGOUT });
                         window.localStorage.removeItem("user");

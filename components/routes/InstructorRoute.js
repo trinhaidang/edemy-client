@@ -5,6 +5,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import UserNav from "../nav/UserNav";
 import InstructorNav from "../nav/InstructorNav";
 
+const API_URRENT_INSTRUCTOR = "/api/current-instructor";
 
 const InstructorRoute = ({ children }) => {
 
@@ -12,7 +13,7 @@ const InstructorRoute = ({ children }) => {
     const router = useRouter();
     const fetchInstructor = async () => {
         try {
-            const { data } = await axios.get("/api/current-instructor");
+            const { data } = await axios.get(API_URRENT_INSTRUCTOR);
             console.log(data);
             if (data.ok) setOk(true);
         } catch (err) {

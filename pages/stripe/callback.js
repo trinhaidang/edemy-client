@@ -4,12 +4,13 @@ import { useContext, useEffect } from "react"
 import { ActionEnum } from "../../common/constants";
 import { Context } from "../../context"
 
+const API_ACCOUNT_STATUS = '/api/get-account-status';
 
 const StripeCallback = () => {
     const { state: { user }, dispatch } = useContext(Context);
     useEffect(() => {
         if (user) {
-            axios.post('/api/get-account-status').then((res) => {
+            axios.post(API_ACCOUNT_STATUS).then((res) => {
                 // console.log(res);
                 dispatch({
                     type: ActionEnum.LOGIN,

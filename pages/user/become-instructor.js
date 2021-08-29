@@ -6,6 +6,7 @@ import { RoleEnum } from "../../common/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const API_MAKE_INSTRUCTOR = "/api/make-instructor";
 
 const BecomeInstructor = () => {
 
@@ -14,7 +15,7 @@ const BecomeInstructor = () => {
     const handleBecomeInstructor = () => {
         // console.log("handleBecomeInstructor", user);
         setLoading(true);
-        axios.post("/api/make-instructor")
+        axios.post(API_MAKE_INSTRUCTOR)
         .then(res => {
             setLoading(false);
             // console.log(res.data);

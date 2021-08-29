@@ -6,8 +6,9 @@ import Link from "next/link";
 import { Context } from "../context";
 import { useRouter } from "next/router";
 
-const Register = () => {
+const API_REGISTER = "/api/register";
 
+const Register = () => {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const Register = () => {
         // console.table({ name, email, password });
         try {
             setLoading(true);
-            const { data } = await axios.post(`/api/register`, {
+            const { data } = await axios.post(API_REGISTER, {
                 name, email, password
             });
             // console.log("REGISTER RESPONSE: ", data);

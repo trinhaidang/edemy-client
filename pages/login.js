@@ -7,6 +7,7 @@ import { Context } from "../context";
 import { ActionEnum } from "../common/constants";
 import { useRouter } from "next/router";
 
+const API_LOGIN = "/api/login";
 
 const Login = () => {
 
@@ -27,7 +28,7 @@ const Login = () => {
         // console.table({ name, email, password });
         try {
             setLoading(true);
-            const { data } = await axios.post(`/api/login`, {
+            const { data } = await axios.post(API_LOGIN, {
                 email, password
             });
             // console.log("LOGIN RESPONSE: ", data); // -> user

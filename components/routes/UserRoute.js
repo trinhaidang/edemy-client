@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { SyncOutlined } from "@ant-design/icons";
 import UserNav from "../nav/UserNav";
 
+const API_URRENT_USER = "/api/current-user";
 
 const UserRoute = ({ children }) => {
 
@@ -11,7 +12,7 @@ const UserRoute = ({ children }) => {
     const router = useRouter();
     const fetchUser = async () => {
         try {
-            const { data } = await axios.get("/api/current-user");
+            const { data } = await axios.get(API_URRENT_USER);
             console.log(data);
             if (data.ok) setOk(true);
         } catch (err) {

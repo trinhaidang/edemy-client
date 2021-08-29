@@ -9,6 +9,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
+const API_LOGOUT = "/api/logout";
+
 const { Item, SubMenu, ItemGroup } = Menu;
 
 const TopNav = () => {
@@ -28,7 +30,7 @@ const TopNav = () => {
         dispatch({ type: ActionEnum.LOGOUT });
         // remove from local storage
         window.localStorage.removeItem("user");
-        const { data } = await axios.get("/api/logout");
+        const { data } = await axios.get(API_LOGOUT);
         toast(data.message);
         router.push("/login");
     };
