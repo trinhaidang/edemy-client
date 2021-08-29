@@ -3,6 +3,7 @@ import { DEFAULT_PRICE } from "../../common/constants";
 
 const { Option } = Select;
 
+
 const CourseCreateForm = ({
     handleSubmit, 
     handleChange, 
@@ -34,11 +35,11 @@ const CourseCreateForm = ({
                     ></textarea>
                 </div>
                 <div className="row">
-                    <div className={values.paid ? "col-sm-8" : ""}>
+                    <div className={values.paid ? "col-8" : ""}>
                         <div className="form-group">
                             <Select  style={{ width: "100%" }}
                                 size="large"
-                                value={values.paid} onChange={v => setValues({ ...values, paid: !values.paid })}
+                                value={values.paid} onChange={v => setValues({ ...values, paid: v, price: 0 })}
                             >
                                 <Option value={true}>Paid</Option>
                                 <Option value={false}>Free</Option>
@@ -46,10 +47,11 @@ const CourseCreateForm = ({
                         </div>
                     </div>
                     {values.paid && (
-                        <div className="col-sm-4">
+                        <div className="col-4">
                         <div className="form-group clearfix" >
                             <Select  style={{ width: "100%" }}
                                 tokenSeparators={[,]} size="large"
+                                value={values.price+ ".000 VND"}
                                 defaultValue={DEFAULT_PRICE + ".000 VND"}
                                 onChange={(v) => setValues({ ...values, price: v })}
                             >

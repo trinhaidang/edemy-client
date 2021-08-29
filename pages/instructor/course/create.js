@@ -1,22 +1,25 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DEFAULT_PRICE } from "../../../common/constants";
 import CourseCreateForm from "../../../components/forms/CourseCreateForm";
 import InstructorRoute from "../../../components/routes/InstructorRoute";
 import Resizer from 'react-image-file-resizer';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const API_UPLOAD_IMAGE="/api/course/upload-image";
 const API_REMOVE_IMAGE="/api/course/remove-image";
+const API_COURSE = "/api/course";
 
 const CourseCreate = () => {
+    const router = useRouter();
     const [values, setValues] = useState({
         name: '',
         description: '',
+        paid: true,
         price: DEFAULT_PRICE,
         uploading: false,
-        paid: true,
         category: '',
         loading: false,
     });
@@ -27,6 +30,7 @@ const CourseCreate = () => {
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
+
     const handleImage = (e) => { 
         let file = e.target.files[0];
         setPreview(window.URL.createObjectURL(file));
@@ -58,14 +62,23 @@ const CourseCreate = () => {
         } catch (err) {
             console.log(err);
             setValues({ ...values, loading: false });
-            toast("Image upload failed. Try again");
+            toast(err.response.data);
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values);
-        console.log(preview);
+        try {
+            // if(values.paid === false) {
+            //     setValues({ ...values, price: 0 });
+            // }
+            const {data} = await axios.post(API_COURSE, {...values, image});
+            toast("Great! Now you can start adding lessons");
+            router.push("/instructor");
+        } catch (err) {
+            console.log(err);
+            toast(err.response.data);
+        }
     }
 
     return (

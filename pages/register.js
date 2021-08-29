@@ -37,7 +37,7 @@ const Register = () => {
             toast.success("Registration successful. Login now.");
         } catch (error) {
             setLoading(false);
-            toast.error(error.response.data);
+            toast.error(error.response.data || "Register error. ");
         }
     }
 
