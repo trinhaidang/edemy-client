@@ -3,7 +3,7 @@
 }
 
 .jumbotron {
-    background-image: linear-gradient(to right, #007bff, #000);
+    background-image: linear-gradient(to right, #000, #007bff 30%, #007bff 70%, #000 100%);
     color: #fff;
     padding: 3rem;
 }
@@ -11,3 +11,15 @@
 .form-group {
     padding-bottom: 1rem;
 }
+
+@media (max-width: 768px) {
+    .side-nav {
+      position: absolute;
+      display: none;
+    }
+}
+
+.side-nav {
+    margin-right: -1rem;
+    margin-left: -0.3rem;
+  }

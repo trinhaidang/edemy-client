@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Avatar, Button, Modal, Tooltip, List } from "antd";
-import { DEFAULT_COURSE_IMG } from "../../common/constants";
+import { DEFAULT_COURSE_IMG, RefModeEnum } from "../../common/constants";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { CheckOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
@@ -11,8 +11,20 @@ import Item from "antd/lib/list/Item";
 
 const API_UPLOAD_MEDIA = "/api/course/upload-media/";
 const API_REMOVE_MEDIA = "/api/course/remove-media/";
+const API_SLUG_LESSON = "/api/course/lesson";
 
-const CourseView = ({ course , setCourse, apiLesson, findBy}) => {
+const CourseView = ({ course , setCourse, refMode}) => {
+    let apiLesson = "";
+    let findBy = "";
+    let courseEditPath = "";
+    let coursePublishPath = "";
+    if(refMode === RefModeEnum.SLUG) {
+        apiLesson = API_SLUG_LESSON;
+        findBy = course.slug;
+        courseEditPath = `/instructor/course/edit/${course.slug}`;
+        coursePublishPath = `/instructor/course/pulish/${course.slug}`;
+    }
+    const router = useRouter();
 
     const [visible, setVisible] = useState(false);
     const [values, setValues] = useState({
@@ -105,10 +117,10 @@ const CourseView = ({ course , setCourse, apiLesson, findBy}) => {
                                 </div>
                                 <div className="d-flex pt-4 col-2">
                                     <Tooltip title="Edit">
-                                        <EditOutlined className="h5 pointer text-warning p-2" />
+                                        <EditOutlined onClick={() => router.push(courseEditPath)} className="h5 pointer text-warning p-2" />
                                     </Tooltip>
                                     <Tooltip title="Publish">
-                                        <CheckOutlined className="h5 pointer text-danger p-2" />
+                                        <CheckOutlined onClick={() => router.push(coursePublishPath)} className="h5 pointer text-danger p-2" />
                                     </Tooltip>
                                 </div>
                             </div>
@@ -133,8 +145,8 @@ const CourseView = ({ course , setCourse, apiLesson, findBy}) => {
                         <AddLessonForm
                             values={values} setValues={setValues}
                             handleAddLesson={handleAddLesson}
-                            uploading={uploading} setUploading={setUploading}
-                            uploadButtonText={uploadButtonText} setUploadButtonText={setUploadButtonText}
+                            uploading={uploading} 
+                            uploadButtonText={uploadButtonText} 
                             handleMedia={handleMedia}
                             progress={progress}
                             handleMediaRemove={handleMediaRemove}

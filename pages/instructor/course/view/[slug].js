@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Avatar, Button, Modal, Tooltip } from "antd";
-import { DEFAULT_COURSE_IMG } from "../../../../common/constants";
+import { DEFAULT_COURSE_IMG, RefModeEnum } from "../../../../common/constants";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
@@ -10,8 +10,7 @@ import AddLessonForm from "../../../../components/forms/AddLessonForm";
 import CourseView from "../../../../components/views/CourseView";
 
 
-const API_GET_COURSE_BY_SLUG = "/api/course/";
-const API_LESSON = "/api/course/lesson";
+const API_GET_COURSE_BY_SLUG = "/api/course";
 
 const CourseViewBySlug = () => {
 
@@ -20,11 +19,12 @@ const CourseViewBySlug = () => {
     const {slug} = router.query;
 
     useEffect(() => {
+        if(!router.isReady) return;
         loadCourse();
-    },[slug]);
+    }, [router.isReady]);
 
     const loadCourse = async () => {
-        const {data} = await axios.get(`${API_GET_COURSE_BY_SLUG}${slug}`);
+        const {data} = await axios.get(`${API_GET_COURSE_BY_SLUG}/${slug}`);
         setCourse(data.course);
     } 
 
@@ -36,8 +36,7 @@ const CourseViewBySlug = () => {
                     <CourseView 
                         course={course} 
                         setCourse={setCourse} 
-                        findBy={course.slug} 
-                        apiLesson={API_LESSON} 
+                        refMode={RefModeEnum.SLUG} 
                     />
                 
                     // <div className="container-fluid pt-1">

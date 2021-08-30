@@ -6,8 +6,8 @@ import { Button, Tooltip, Progress } from "antd"
 const AddLessonForm = ({
     values, setValues,
     handleAddLesson,
-    uploading, setUploading,
-    uploadButtonText, setUploadButtonText,
+    uploading, 
+    uploadButtonText, 
     handleMedia,
     progress,
     handleMediaRemove

@@ -53,7 +53,7 @@ const TopNav = () => {
                         </Item>
                         <Item key="/instructor" onClick={(e) => setCurrent(e.key)} icon={<TeamOutlined />} >
                             <Link href="/instructor">
-                                <a>Instructor Dashboard</a>
+                                <a>My Courses</a>
                             </Link>
                         </Item>
                     </>
@@ -98,7 +98,7 @@ const TopNav = () => {
                     <ItemGroup>
                         <Item key="/user">
                             <Link href="/user">
-                                <a>Dashboard</a>
+                                <a>My Learning</a>
                             </Link>
                         </Item>
                         <Item key="#" onClick={logout}>

@@ -11,9 +11,9 @@ const UserNav = () => {
     }, [process.browser && window.location.pathname]);
 
     return (
-        <div className="nav flex-column nav-pills">
+        <div className="side-nav nav flex-column nav-pills">
             <Link href="/user">
-                <a className={`nav-link ${current === "/user" && "active"}`}>User  Dashboard</a>
+                <a className={`nav-link ${current === "/user" && "active"}`}>My Learning</a>
             </Link>
         </div>
     );
