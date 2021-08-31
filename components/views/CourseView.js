@@ -13,12 +13,12 @@ const API_UPLOAD_MEDIA = "/api/course/upload-media/";
 const API_REMOVE_MEDIA = "/api/course/remove-media/";
 const API_SLUG_LESSON = "/api/course/lesson";
 
-const CourseView = ({ course , setCourse, refMode}) => {
+const CourseView = ({ course, setCourse, refMode }) => {
     let apiLesson = "";
     let findBy = "";
     let courseEditPath = "";
     let coursePublishPath = "";
-    if(refMode === RefModeEnum.SLUG) {
+    if (refMode === RefModeEnum.SLUG) {
         apiLesson = API_SLUG_LESSON;
         findBy = course.slug;
         courseEditPath = `/instructor/course/edit/${course.slug}`;
@@ -40,13 +40,14 @@ const CourseView = ({ course , setCourse, refMode}) => {
         e.preventDefault();
         console.log(values);
         try {
-            const { data } = axios.post(`${apiLesson}/${findBy}/${course.instructor._id}`, values);
+            const { data } = await axios.post(`${apiLesson}/${findBy}/${course.instructor._id}`, values);
             console.log("add lesson data: ", data);
             setValues({ ...values, title: "", content: "", media: {} });
             setVisible(false);
             setUploadButtonText("Upload media");
             setCourse(data);
             toast("Lesson added.");
+            router.push(`/instructor/course/view/${course.slug}`)
         } catch (err) {
             console.log(err);
             toast("Lesson add failed.");
@@ -57,6 +58,15 @@ const CourseView = ({ course , setCourse, refMode}) => {
         try {
             // console.log(course.instructor._id);
             setUploading(true);
+
+            const exist = values.media;
+            if (Object.keys(exist).length !== 0) {
+                console.log("process remove previous media");
+                removeMedia();
+                // setUploadButtonText("Upload another file");
+            }
+
+            console.log("process add media");
             const file = e.target.files[0];
             setUploadButtonText(file.name);
 
@@ -84,15 +94,19 @@ const CourseView = ({ course , setCourse, refMode}) => {
             toast("Media upload failed. Try later");
         }
     }
-    const handleMediaRemove = async () => {
+    const handleMediaRemove = async (e) => {
         console.log("process remove media");
+        removeMedia();
+        setUploadButtonText("Upload another file");
+    }
+    const removeMedia = async (e) => {
         try {
             setUploading(true);
             const { data } = await axios.post(`${API_REMOVE_MEDIA}${course.instructor._id}`, values.media);
             console.log(data);
             setValues({ ...values, media: {} });
-            setUploadButtonText("Upload another file");
-
+            // setUploadButtonText("Upload another file");
+            setProgress(0);
             setUploading(false);
         } catch (err) {
             setUploading(false);
@@ -145,8 +159,8 @@ const CourseView = ({ course , setCourse, refMode}) => {
                         <AddLessonForm
                             values={values} setValues={setValues}
                             handleAddLesson={handleAddLesson}
-                            uploading={uploading} 
-                            uploadButtonText={uploadButtonText} 
+                            uploading={uploading}
+                            uploadButtonText={uploadButtonText}
                             handleMedia={handleMedia}
                             progress={progress}
                             handleMediaRemove={handleMediaRemove}

@@ -2,7 +2,6 @@ import { CloseCircleFilled } from "@ant-design/icons"
 import { Button, Tooltip, Progress } from "antd"
 
 
-
 const AddLessonForm = ({
     values, setValues,
     handleAddLesson,
@@ -12,8 +11,6 @@ const AddLessonForm = ({
     progress,
     handleMediaRemove
 }) => {
-
-
 
     return (
         <div className="container pt-3">

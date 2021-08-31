@@ -17,4 +17,6 @@ export const RefModeEnum = {
     SLUG: "slug",
     ID: "_id"
 };
-
+export const PLAYER_WIDTH = "410px";  //update lesson modal
+export const PLAYER_HEIGHT = "240px"; //update lesson modal
+ 

@@ -26,6 +26,7 @@ const CourseViewBySlug = () => {
     const loadCourse = async () => {
         const {data} = await axios.get(`${API_GET_COURSE_BY_SLUG}/${slug}`);
         setCourse(data.course);
+        console.log(course);
     } 
 
     return (
@@ -38,48 +39,6 @@ const CourseViewBySlug = () => {
                         setCourse={setCourse} 
                         refMode={RefModeEnum.SLUG} 
                     />
-                
-                    // <div className="container-fluid pt-1">
-
-                    //     <div className="media pt-2 row">
-                    //         <Avatar size={80} src={course.image ? course.image.Location : DEFAULT_COURSE_IMG} className="col-3"/>
-                    //         <div className="media-body col-9">
-                    //             <div className="row">
-                    //                 <div className="col-11">
-                    //                     <h5 className="mt-2 text-primary">{course.name}</h5>
-                    //                     <p style={{ marginTop: "-10px" }}>{course.lessons && course.lessons.length} Lessons</p>
-                    //                     <p style={{ marginTop: "-15px", fontSize: "10px" }}>{course.category}</p>
-                    //                 </div>
-                    //                 <div className="d-flex pt-4 col-1">
-                    //                     <Tooltip title="Edit">
-                    //                         <EditOutlined className="h5 pointer text-warning p-2" />
-                    //                     </Tooltip>
-                    //                     <Tooltip title="Publish">
-                    //                         <CheckOutlined className="h5 pointer text-danger p-2" />
-                    //                     </Tooltip>
-                    //                 </div>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-
-                    //     <hr />
-                    //     <div className="row">
-                    //         <div className="col"><ReactMarkdown children={course.description} /></div>
-                    //     </div>
-
-                    //     <div className="row">
-                    //         <Button 
-                    //             className="col-md-6 offset-md-3 text-center" 
-                    //             type="primary" shape="round" size="large" icon={<UploadOutlined />}
-                    //             onClick={() => setVisible(true)}
-                    //         >Add Lesson</Button>
-                    //     </div><br />
-
-                    //     <Modal title="+ Add Lesson" centered visible={visible} onCancel={() => setVisible(false)} footer={null}>
-                    //         <AddLessonForm />
-                    //     </Modal>
-
-                    // </div>
                 )}
             </div>
         </InstructorRoute>
