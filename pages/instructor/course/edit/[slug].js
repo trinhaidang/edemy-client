@@ -137,7 +137,7 @@ const CourseEdit = () => {
             // console.log("lesson to delete: ", removed);
             setValues({ ...values, lessons: allLessons });
             // saveCourse();   // --- use for save all lessons
-            const { data } = await axios.put(`${API_COURSE}/${slug}/${removed._id}`);
+            const { data } = await axios.delete(`${API_COURSE}/${slug}/${removed._id}`);
             console.log("lesson deleted: ", data);
         } catch (err) {
             console.log(err);
@@ -194,6 +194,7 @@ const CourseEdit = () => {
         try {
             const { data } = await axios.put(`${API_LESSON}/${slug}/${current._id}`, current);
             setUploadMediaButtonText("Upload media");
+            setProgress(0);
             setVisible(false);
             if(data && data.ok) {
                 let arr = values.lessons

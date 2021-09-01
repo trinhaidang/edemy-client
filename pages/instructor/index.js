@@ -1,5 +1,5 @@
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { Avatar } from "antd";
+import { Avatar, Tooltip } from "antd";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -46,14 +46,14 @@ const InstructorIndex = () => {
                                     {course.lessons.length < MIN_LESSONS_REQUIRED
                                         ? (<p style={myStyle} className="text-warning">At least {MIN_LESSONS_REQUIRED} lessons are required to publish a course</p>)
                                         : course.published
-                                            ? (<p style={myStyle} className="text-sucess">Your course is live in the website</p>)
+                                            ? (<p style={myStyle} className="text-success">Your course is live in the website</p>)
                                             : (<p style={myStyle} className="text-sucess">Your course is ready to be published</p>)
                                     }
                                 </div>
                                 <div className="col-1 mt-3 text-center">
                                     {course.published
-                                        ? (<div><CheckCircleOutlined className="h5 pointer text-success" /></div>)
-                                        : (<div><CloseCircleOutlined className="h5 pointer text-warning" /></div>)
+                                        ? (<Tooltip title="Pulished"><CheckCircleOutlined className="h5 pointer text-success" /></Tooltip>)
+                                        : (<Tooltip title="Unpulished"><CloseCircleOutlined className="h5 pointer text-warning" /></Tooltip>)
                                     }
                                 </div>
                             </div>
