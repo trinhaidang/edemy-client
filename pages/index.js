@@ -1,20 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import CourseCard from "../components/views/CourseCard";
 
 const API_ALL_PUBLISHED_COURSES = "/api/courses";
 
-const Index = () => {
+const Index = ({ courses }) => {
 
-    const [courses, setCourses] = useState([]);
-    const fetchCourses = async () => {
-        const {data} = await axios.get(API_ALL_PUBLISHED_COURSES);
-        setCourses(data);
-    };
-    useEffect(() => {
-        fetchCourses(); 
-    }, []);
-
+    // const [courses, setCourses] = useState([]);
+    // const fetchCourses = async () => {
+    //     const {data} = await axios.get(API_ALL_PUBLISHED_COURSES);
+    //     setCourses(data);
+    // };
+    // useEffect(() => {
+    //     fetchCourses(); 
+    // }, []);
+    // console.log("COURSES: ",courses);
     return (
         <>
             <h1 className="jumbotron text-center bg-primary square">
@@ -31,6 +32,20 @@ const Index = () => {
             </div>
         </>
     )
+}
+
+export async function getServerSideProps() {
+    try {
+        const { data } = await axios.get(`${process.env.API}/courses`);
+        return {
+            props: {
+                courses: data,
+            }
+        };
+    } catch (err) {
+        console.log(err);
+        toast("COuld not load courses");
+    }
 }
 
 export default Index;

@@ -50,7 +50,7 @@ const UpdateLessonForm = ({
                     <span className="pt-3 pe-2">Free Preview</span>
                     <Switch
                         className="mt-3 ms-2" name="free_preview"
-                        disabled={uploading} defaultChecked={current.free_preview}
+                        disabled={uploading} checked={current.free_preview}
                         onChange={v => setCurrent({ ...current, free_preview: v })}
                     />
                 </div>

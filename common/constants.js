@@ -10,6 +10,7 @@ export const RoleEnum = {
 };
 
 export const DEFAULT_PRICE = 19;
+export const DEFAULT_CURRENCY = "vnd";
 export const DEFAULT_COURSE_IMG = "/images/default.jpg";
 
 export const MIN_LESSONS_REQUIRED = 5;

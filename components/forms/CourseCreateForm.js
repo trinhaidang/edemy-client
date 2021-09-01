@@ -1,5 +1,6 @@
 import { Button, Select, Avatar, Badge } from "antd";
-import { DEFAULT_PRICE } from "../../common/constants";
+import { DEFAULT_CURRENCY, DEFAULT_PRICE } from "../../common/constants";
+import { currencyFormatter } from "../../common/utils";
 
 const { Option } = Select;
 
@@ -17,8 +18,11 @@ const CourseCreateForm = ({
 }) => {
 
     const children = [];
-    for (let i = 19; i <= 199; i += 20) {
-        children.push(<Option key={i}>{i + ".000 VND"}</Option>)
+    for (let i = 19000; i <= 499000; i += 40000) {
+        children.push(<Option key={i}>{currencyFormatter({
+            amount: i,
+            currency: DEFAULT_CURRENCY
+        })}</Option>)
     }
 
     return (
@@ -54,8 +58,14 @@ const CourseCreateForm = ({
                                 <div className="form-group clearfix" >
                                     <Select style={{ width: "100%" }}
                                         tokenSeparators={[,]} size="large"
-                                        value={values.price + ".000 VND"}
-                                        defaultValue={DEFAULT_PRICE + ".000 VND"}
+                                        value={currencyFormatter({
+                                            amount: values.price,
+                                            currency: values.currency || DEFAULT_CURRENCY
+                                        })}
+                                        defaultValue={currencyFormatter({
+                                            amount: DEFAULT_PRICE,
+                                            currency: values.currency || DEFAULT_CURRENCY
+                                        })}
                                         onChange={(v) => setValues({ ...values, price: v })}
                                     >
                                         {children}

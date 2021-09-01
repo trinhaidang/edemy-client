@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import AddLessonForm from "../forms/AddLessonForm";
 import { toast } from "react-toastify";
 import Item from "antd/lib/list/Item";
+import { currencyFormatter } from "../../common/utils";
 
 const API_UPLOAD_MEDIA = "/api/course/upload-media/";
 const API_REMOVE_MEDIA = "/api/course/remove-media/";
@@ -155,7 +156,10 @@ const CourseView = ({ course, setCourse, refMode }) => {
                             <div className="row">
                                 <div className="col-10">
                                     <h5 className="mt-2 text-primary">{course.name}</h5>
-                                    <p style={{ marginTop: "-0.2rem" }}>{course.paid ? course.price + ".000 VND" : "FREE"}</p>
+                                    <p style={{ marginTop: "-0.2rem" }}>{course.paid ? currencyFormatter({
+                                            amount: course.price,
+                                            currency: course.currency || DEFAULT_CURRENCY
+                                        }) : "FREE"}</p>
                                     {/* <p style={{ marginTop: "-10px" }}>{course.lessons && course.lessons.length} Lessons</p> */}
                                     <p style={{ marginTop: "-1rem", fontSize: "10px" }}>{course.category}</p>
                                 </div>
