@@ -12,7 +12,7 @@ const Register = () => {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [password, SetPassword] = useState("");
+    const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const { state: { user } } = useContext(Context);
 
@@ -35,9 +35,10 @@ const Register = () => {
             setPassword("");
             setLoading(false);
             toast.success("Registration successful. Login now.");
-        } catch (error) {
+        } catch (err) {
             setLoading(false);
-            toast.error(error.response.data || "Register error. ");
+            console.log(err)
+            toast.error("Register error. Try again");
         }
     }
 
@@ -66,7 +67,7 @@ const Register = () => {
                         type="password"
                         className="form-control mb-4 p-3"
                         value={password}
-                        onChange={(e) => SetPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter password"
                         required
                     />
