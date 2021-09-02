@@ -13,6 +13,7 @@ import {Context} from "../../context";
 
 const API_CHECK_ENROLLMENT = "/api/check-enrollment";
 const API_FREE_ENROLLMENT = "/api/free-enrollment";
+const API_PAID_ENROLLMENT = "/api/paid-enrollment";
 
 const SingleCourse = ({ course }) => {
     const router = useRouter();
@@ -37,8 +38,28 @@ const SingleCourse = ({ course }) => {
             toast("check enrollment failed.");
         }
     }
-    const handlePaidEnrollment = () => {
-        console.log("handlePaidEnrollment")
+    const handlePaidEnrollment = async (e) => {
+        // console.log("handlePaidEnrollment");
+        e.preventDefault();
+        try {
+            // check if logged in
+            if(!user) router.push("/login");
+            // check if enrolled
+            if(enrolled.status) {
+                return router.push(`/user/course/${enrolled.course.slug}`);
+            }
+            setLoading(true);
+            const {data} = await axios.post(`${API_PAID_ENROLLMENT}/${course._id}`);
+            // const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+            // stripe.redirectToCheckout({sessionId: data})
+            // console.log(data);
+            setLoading(false);
+            router.push(data);
+        } catch (err) {
+            setLoading(false);
+            console.log(err);
+            toast("enroll failed. Try again");
+        }
     };
     const handleFreeEnrollment = async (e) => {
         // console.log("handleFreeEnrollment");
@@ -61,6 +82,7 @@ const SingleCourse = ({ course }) => {
             toast("enroll failed. Try again");
         }
     };
+
 
     return (
         <>
