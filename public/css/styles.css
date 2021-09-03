@@ -22,4 +22,9 @@
 .side-nav {
     margin-right: -1rem;
     margin-left: -0.3rem;
-  }
+}
+
+.pointer {
+    cursor: pointer;
+}
+
